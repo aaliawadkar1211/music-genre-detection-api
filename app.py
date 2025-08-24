@@ -20,45 +20,48 @@ def extract_features(file_path):
         # MFCCs
         mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=20)
         for i in range(20):
-            features[f'mfcc{i+1}_mean'] = np.mean(mfccs[i])
-            features[f'mfcc{i+1}_std']  = np.std(mfccs[i])
+            features[f'mfcc{i+1}_mean'] = float(np.mean(mfccs[i]))
+            features[f'mfcc{i+1}_std']  = float(np.std(mfccs[i]))
 
         # Chroma
         chroma = librosa.feature.chroma_stft(y=y, sr=sr)
         for i in range(12):
-            features[f'chroma{i+1}_mean'] = np.mean(chroma[i])
-            features[f'chroma{i+1}_std']  = np.std(chroma[i])
+            features[f'chroma{i+1}_mean'] = float(np.mean(chroma[i]))
+            features[f'chroma{i+1}_std']  = float(np.std(chroma[i]))
 
         # Spectral Contrast
         contrast = librosa.feature.spectral_contrast(y=y, sr=sr)
         for i in range(contrast.shape[0]):
-            features[f'contrast{i+1}_mean'] = np.mean(contrast[i])
-            features[f'contrast{i+1}_std']  = np.std(contrast[i])
+            features[f'contrast{i+1}_mean'] = float(np.mean(contrast[i]))
+            features[f'contrast{i+1}_std']  = float(np.std(contrast[i]))
 
         # Tonnetz
         tonnetz = librosa.feature.tonnetz(y=librosa.effects.harmonic(y), sr=sr)
         for i in range(tonnetz.shape[0]):
-            features[f'tonnetz{i+1}_mean'] = np.mean(tonnetz[i])
-            features[f'tonnetz{i+1}_std']  = np.std(tonnetz[i])
+            features[f'tonnetz{i+1}_mean'] = float(np.mean(tonnetz[i]))
+            features[f'tonnetz{i+1}_std']  = float(np.std(tonnetz[i]))
 
         # Zero-Crossing Rate
         zcr = librosa.feature.zero_crossing_rate(y)
-        features['zcr_mean'] = np.mean(zcr)
-        features['zcr_std']  = np.std(zcr)
+        features['zcr_mean'] = float(np.mean(zcr))
+        features['zcr_std']  = float(np.std(zcr))
 
         # RMS Energy
         rms = librosa.feature.rms(y=y)
-        features['rms_mean'] = np.mean(rms)
-        features['rms_std']  = np.std(rms)
+        features['rms_mean'] = float(np.mean(rms))
+        features['rms_std']  = float(np.std(rms))
 
         # Tempo
         tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-        features['tempo'] = tempo
+        if isinstance(tempo, (list, np.ndarray)):
+            tempo = tempo[0] if len(tempo) > 0 else 0.0
+        features['tempo'] = float(tempo)
 
         return features
     except Exception as e:
         print(f"Error processing {file_path}: {e}")
         return None
+
 
 # Init app
 app = FastAPI(title="Music Genre Classifier API")
