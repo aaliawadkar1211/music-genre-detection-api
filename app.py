@@ -5,13 +5,16 @@ import librosa
 import numpy as np
 import os
 import tempfile
-from pydantic import BaseModel
+import pandas as pd
 
 # Load model and scaler
 model = joblib.load("genre_classifier.pkl")
 scaler = joblib.load("scaler.pkl")
 
-# Feature extractor (same as training)
+# Expected feature order (same as training)
+FEATURE_ORDER = joblib.load("feature_order.pkl")
+
+
 def extract_features(file_path):
     try:
         y, sr = librosa.load(file_path, duration=30, sr=22050)
@@ -53,9 +56,7 @@ def extract_features(file_path):
 
         # Tempo
         tempo, _ = librosa.beat.beat_track(y=y, sr=sr)
-        if isinstance(tempo, (list, np.ndarray)):
-            tempo = tempo[0] if len(tempo) > 0 else 0.0
-        features['tempo'] = float(tempo)
+        features['tempo'] = float(tempo if not isinstance(tempo, (list, np.ndarray)) else tempo[0])
 
         return features
     except Exception as e:
@@ -76,20 +77,24 @@ async def predict(file: UploadFile = File(...)):
     # Extract features
     feats = extract_features(tmp_path)
     os.remove(tmp_path)
-
+    
     if not feats:
         return {"error": "Feature extraction failed"}
 
-    # Convert to numpy array
-    X = np.array(list(feats.values())).reshape(1, -1)
+    # Put features into DataFrame with correct column order
+    df = pd.DataFrame([feats])
+    df = df.reindex(columns=FEATURE_ORDER, fill_value=0)
 
     # Scale features
-    X_scaled = scaler.transform(X)
+    X_scaled = scaler.transform(df)
+
+    print("Feature vector shape:", X_scaled.shape)
 
     # Predict
     pred = model.predict(X_scaled)[0]
 
     return {"predicted_genre": pred}
-    
+
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
