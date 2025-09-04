@@ -67,6 +67,7 @@ def extract_features(file_path):
 # Init app
 app = FastAPI(title="Music Genre Classifier API")
 
+
 @app.post("/predict")
 async def predict(file: UploadFile = File(...)):
     # Save uploaded file temporarily
@@ -88,12 +89,19 @@ async def predict(file: UploadFile = File(...)):
     # Scale features
     X_scaled = scaler.transform(df)
 
-    print("Feature vector shape:", X_scaled.shape)
+    # Predict with probabilities
+    probs = model.predict_proba(X_scaled)[0]
+    pred_idx = probs.argmax()
+    pred_genre = model.classes_[pred_idx]
+    confidence = float(probs[pred_idx])
 
-    # Predict
-    pred = model.predict(X_scaled)[0]
-
-    return {"predicted_genre": pred}
+    return {
+        "predicted_genre": pred_genre,
+        "confidence": round(confidence * 100, 2),
+        "all_probabilities": {
+            model.classes_[i]: float(p) for i, p in enumerate(probs)
+        }
+    }
 
 
 if __name__ == "__main__":
