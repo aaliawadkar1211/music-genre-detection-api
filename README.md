@@ -76,7 +76,7 @@ uvicorn app:app --reload --port 8000
 
 The API will be available at `http://localhost:8000`
 
-### 4. Test the API
+### 3. Test the API
 
 ```bash
 # Test with a sample audio file
