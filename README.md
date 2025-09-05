@@ -5,17 +5,16 @@ An end-to-end machine learning system that classifies music genres from audio fi
 ![Python](https://img.shields.io/badge/python-v3.8+-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-005571?logo=fastapi)
 ![Scikit-learn](https://img.shields.io/badge/scikit--learn-%23F7931E.svg?logo=scikit-learn&logoColor=white)
-![License](https://img.shields.io/badge/license-MIT-green.svg)
 
 - 📓 **Training Notebook**: [View on Google Colab](https://colab.research.google.com/drive/1mjXtjz6gdUjcSzuWeIBeLt0GaKeyU-N5?usp=sharing)
-- 🌐 **Try Out**: [Vist Here](https://colab.research.google.com/drive/YOUR-COLAB-ID)
+- 🌐 **Try Out**: [Vist Here](https://music-genre-detection.vercel.app/)
 
 ## 🌟 Overview
 
 This project demonstrates a complete machine learning pipeline from data preprocessing to deployment. The system extracts audio features using librosa, trains multiple classical ML models, and serves the best-performing model (SVM) through a FastAPI backend with a React frontend.
 
 **Live Demo:**
-- 🚀 **User Interface**: [https://music-genre-detection-api-yv06.onrender.com](https://music-genre-detection-api-yv06.onrender.com)
+- 🚀 **User Interface**: [https://music-genre-detection.vercel.app/](https://music-genre-detection.vercel.app/)
 - 🚀 **API**: [https://music-genre-detection-api-yv06.onrender.com](https://music-genre-detection-api-yv06.onrender.com)
 - 📖 **API Documentation**: [https://music-genre-detection-api-yv06.onrender.com/docs](https://music-genre-detection-api-yv06.onrender.com/docs)
 
