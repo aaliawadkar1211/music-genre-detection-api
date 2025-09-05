@@ -187,4 +187,4 @@ Classifies the genre of an uploaded audio file.
 - [FastAPI Documentation](https://fastapi.tiangolo.com/)
 - [librosa Documentation](https://librosa.org/)
 - [scikit-learn User Guide](https://scikit-learn.org/stable/user_guide.html)
-- [GTZAN Dataset]([http://marsyas.info/downloads/datasets.html](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification))
+- [GTZAN Dataset](https://www.kaggle.com/datasets/andradaolteanu/gtzan-dataset-music-genre-classification)
