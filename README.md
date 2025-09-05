@@ -76,16 +76,6 @@ uvicorn app:app --reload --port 8000
 
 The API will be available at `http://localhost:8000`
 
-### 3. Frontend Setup (Optional)
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The frontend will be available at `http://localhost:3000`
-
 ### 4. Test the API
 
 ```bash
